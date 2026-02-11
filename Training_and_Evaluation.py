@@ -19,7 +19,7 @@ import umap
 import re
 import matplotlib.pyplot as plt
 
-os.chdir("C:/Users/mu128/Desktop/Manuscript Writing/Deep Learning for Flow Delay Calculation/Manuscript Code/working_directory/")
+os.chdir("working_directory/")
 
 # ================================================================
 # CUSTOM LAYER FOR L2 NORMALIZATION
@@ -2236,3 +2236,4 @@ df_testlist.to_csv(out_csv, index=False)
 
 print("Saved test field list CSV to:", os.path.abspath(out_csv))
 print("N test fields:", len(df_testlist))
+
