@@ -10,7 +10,7 @@ import pyproj
 # =============================
 # WORKING DIRECTORY SETUP
 # =============================
-os.chdir("C:/Users/mu128/Desktop/Manuscript Writing/Deep Learning for Flow Delay Calculation/Manuscript Code/working_directory/")
+os.chdir("working_directory/")
 
 text_files_dir = "AgLeader Txt Files/"
 output_dir = "Outputs"
@@ -336,4 +336,5 @@ if __name__ == "__main__":
 
     print("\nAll fields processed. Patches saved to:")
     print(OUT_DIR)
+
 
