@@ -1705,32 +1705,6 @@ df = pd.DataFrame({
     "Type":     ["AP"] * len(D_AP) + ["AN"] * len(D_AN)
 })
 
-# -------------------------------------------------
-# VIOLIN PLOT
-# -------------------------------------------------
-plt.figure(figsize=(8,5))
-sns.violinplot(data=df, x="Type", y="Distance", palette="Set2")
-plt.xlabel("")
-plt.ylabel("L2 Distance")
-plt.tight_layout()
-
-plt.savefig(os.path.join(EMB_DIR, "violin_AP_AN.png"), dpi=500, bbox_inches="tight")
-plt.savefig(os.path.join(EMB_DIR, "violin_AP_AN.svg"), bbox_inches="tight")
-plt.show()
-
-# -------------------------------------------------
-# BOX PLOT
-# -------------------------------------------------
-plt.figure(figsize=(8,5))
-sns.boxplot(data=df, x="Type", y="Distance", palette="Set2")
-plt.xlabel("")
-plt.ylabel("L2 Distance")
-plt.tight_layout()
-
-plt.savefig(os.path.join(EMB_DIR, "box_AP_AN.png"), dpi=500, bbox_inches="tight")
-plt.savefig(os.path.join(EMB_DIR, "box_AP_AN.svg"), bbox_inches="tight")
-plt.show()
-
 
 # ================================================================
 # Embedding_analysis/
@@ -1894,58 +1868,6 @@ plt.tight_layout()
 _save_png_svg(fig, PLOT_DIR, f"umap_onefield_smoothness_{_safe_name(FIELD)}", dpi=500)
 plt.show()
 plt.close(fig)
-
-# ================================================================
-# ONE-PATCH TRAJECTORY ACROSS ALL DELAYS (kept; good for supplement)
-# ================================================================
-def compute_per_delay_embeddings(encoder, field_name, patch_idx, max_del=MAX_DELAY):
-    """
-    Returns embeddings for ONE PATCH across all delays.
-    """
-    embeddings = []
-    delays = []
-
-    for d in range(-max_del, max_del + 1):
-        patch = load_patch(field_name, patch_idx, d)[None, ...]
-        emb_vec, _ = encoder(patch, training=False)
-        emb = emb_vec.numpy()[0]
-        embeddings.append(emb)
-        delays.append(d)
-
-    return np.array(embeddings), np.array(delays)
-
-FIELD = "G1_Panola_P13_Soybeans2_18"
-PATCH_IDX = 8
-
-E_patch, D_patch = compute_per_delay_embeddings(
-    encoder, FIELD, PATCH_IDX, max_del=MAX_DELAY
-)
-
-# ---- UMAP trajectory ----
-umap_tr = umap.UMAP(
-    n_neighbors=10,
-    min_dist=0.05,
-    metric="euclidean",
-    random_state=42
-)
-E_umap_patch = umap_tr.fit_transform(E_patch)
-
-fig = plt.figure(figsize=(8, 6))
-sc = plt.scatter(E_umap_patch[:, 0], E_umap_patch[:, 1], c=D_patch, cmap="jet", s=60,
-                 vmin=-MAX_DELAY, vmax=MAX_DELAY)
-plt.plot(E_umap_patch[:, 0], E_umap_patch[:, 1], "-k", alpha=0.6)
-plt.scatter(E_umap_patch[0, 0],  E_umap_patch[0, 1],  c="black", s=120, marker="s", label=f"Start ({D_patch[0]})")
-plt.scatter(E_umap_patch[-1, 0], E_umap_patch[-1, 1], c="black", s=120, marker="*", label=f"End ({D_patch[-1]})")
-plt.colorbar(sc, label="Delay (shifts)")
-plt.legend()
-plt.tight_layout()
-_save_png_svg(fig, PLOT_DIR, f"umap_patchtraj_delay_{_safe_name(FIELD)}_p{PATCH_IDX}", dpi=500)
-plt.show()
-plt.close(fig)
-
-print("Saved all UMAP/t-SNE figures to:", os.path.abspath(PLOT_DIR))
-
-
 
 
 # ================================================================
@@ -2236,4 +2158,5 @@ df_testlist.to_csv(out_csv, index=False)
 
 print("Saved test field list CSV to:", os.path.abspath(out_csv))
 print("N test fields:", len(df_testlist))
+
 
