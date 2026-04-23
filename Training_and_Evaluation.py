@@ -1,4 +1,21 @@
-################### Gaussian white + Peak-centered Siamese Training ###################
+"""
+Copyright (C) 2026 Mississippi State University.
+
+This program is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published by 
+the Free Software Foundation, either version 3 of the License, or 
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. 
+If not, see <https://www.gnu.org/licenses/>.
+"""
+# ================================================================
+# Importing Libraries
+# ================================================================
 import os
 
 os.environ["TF_DETERMINISTIC_OPS"] = "1"
@@ -400,9 +417,6 @@ plt.close(fig)
 print("\nDone: Dataset characteristics outputs saved in:", os.path.abspath(DATASET_DIR))
 
 
-
-
-
 # ================================================================
 # ANCHOR-CENTERED SIAMESE SAMPLING (RNG PERSISTS ACROSS EPOCHS)
 # ================================================================
@@ -785,8 +799,6 @@ plt.tight_layout()
 plt.savefig(os.path.join(output_dir, "contrastive_loss_curve.png"), dpi=500)
 plt.savefig(os.path.join(output_dir, "contrastive_loss_curve.svg"))
 plt.show()
-
-
 
 # ================================================================
 # Loop over test fields and make plots
@@ -1369,9 +1381,6 @@ print("Raster stats TXT:", stats_txt)
 print("\nDone: Field-level error analysis outputs saved in:", os.path.abspath(ERROR_DIR))
 
 
-
-
-
 # ================================================================
 # EXTRA ANALYSIS (POST-HOC): Semivariogram (Success field only)
 #  - Compares empirical semivariograms of:
@@ -1420,10 +1429,6 @@ print("Field:", SUCCESS_FIELD)
 print(f"TeacherDelay={TEACHER_DELAY}, ModelDelay={MODEL_DELAY}, AbsError={ABS_ERR}")
 print("Output dir:", os.path.abspath(SEMI_DIR))
 print("============================================================")
-
-
-
-
 
 # ----------------------------
 # Raster loaders (reuse your same prepared_patches structure)
@@ -1694,8 +1699,6 @@ plt.savefig(os.path.join(EMB_DIR, "kde_AP_AN.png"), dpi=500, bbox_inches="tight"
 plt.savefig(os.path.join(EMB_DIR, "kde_AP_AN.svg"), bbox_inches="tight")
 
 plt.show()
-
-
 
 # -------------------------------------------------
 # Prepare dataframe
@@ -2020,7 +2023,6 @@ print("MAE always-0:", abs_err_zero.mean())
 print("Within ±2 soft:", (abs_err_soft <= 2).mean() * 100)
 print("Within ±2 always-0:", (abs_err_zero <= 2).mean() * 100)
 
-
 # ================================================================
 # PLOTS (PNG 500 dpi + SVG): Hard argmax vs Soft-argmax (τ = 1.5)
 #   Standalone diagnostic visualization (NO effect on inference)
@@ -2139,7 +2141,6 @@ save_png_svg(fig, PLOT_DIR,
 plt.close(fig)
 
 
-
 # ================================================================
 # SAVE TEST FIELD LIST (CSV) — add at END of script
 # ================================================================
@@ -2158,5 +2159,3 @@ df_testlist.to_csv(out_csv, index=False)
 
 print("Saved test field list CSV to:", os.path.abspath(out_csv))
 print("N test fields:", len(df_testlist))
-
-
